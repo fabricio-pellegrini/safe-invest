@@ -1,3 +1,6 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fabricio-pellegrini_safe-invest&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fabricio-pellegrini_safe-invest)
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
