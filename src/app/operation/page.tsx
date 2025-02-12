@@ -5,29 +5,6 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import operations from '@/data/operations';
 
 
-const assetOptions = ['ALZR11',
-  'BCFF11',
-  'BTLG11',
-  'HGCR11',
-  'HGLG11',
-  'HGRU11',
-  'HSML11',
-  'IRDM11',
-  'MALL11',
-  'MCCI11',
-  'PATC11',
-  'PVBI11',
-  'RBRP11',
-  'RCRB11',
-  'RECR11',
-  'SDIL11',
-  'VGIP11',
-  'VGIR11',
-  'VILG11',
-  'VISC11',
-  'VRTA11',
-  'XPLG11',
-  'XPML11']
 
 const editable = false;
 

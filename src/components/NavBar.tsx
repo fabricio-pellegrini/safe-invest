@@ -4,7 +4,6 @@ import { Container, Box, Typography, AppBar, Button, IconButton, Toolbar, Avatar
 import MenuIcon from '@mui/icons-material/Menu';
 import React from "react"
 import { useRouter } from 'next/navigation'
-import AdbIcon from '@mui/icons-material/Adb';
 
 const pages = ['Home', 'Operation', 'Calculator'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];

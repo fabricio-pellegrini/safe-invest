@@ -1,7 +1,5 @@
-import Copyright from "@/components/Copyright";
 import ProTip from "@/components/ProTip";
 import { Container, Box, Typography } from "@mui/material";
-import Link from "next/link";
 
 
 
