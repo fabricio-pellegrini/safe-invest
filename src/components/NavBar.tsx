@@ -10,7 +10,7 @@ import { DefaultSession } from "next-auth";
 const pages = ['Dashboard', 'Operation', 'Calculator'];
 const settings = ['Profile', 'Logout'];
 
-export default function NavBar({session}: {session: DefaultSession | null}) {
+export default function NavBar({session}: Readonly<{session: DefaultSession | null}>) {
 
     
 

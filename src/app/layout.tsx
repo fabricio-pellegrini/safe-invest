@@ -10,7 +10,7 @@ import { Container, Box } from '@mui/material';
 import { getServerSession } from "next-auth/next";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 
-export default async function RootLayout(props: { children: React.ReactNode }) {
+export default async function RootLayout(props: Readonly<{ children: React.ReactNode }>) {
 
   const session = await getServerSession(options);
 
