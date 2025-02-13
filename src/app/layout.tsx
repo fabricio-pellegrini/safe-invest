@@ -7,8 +7,13 @@ import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import Copyright from '@/components/Copyright';
 import NavBar from '@/components/NavBar';
 import { Container, Box } from '@mui/material';
+import { getServerSession } from "next-auth/next";
+import { options } from "@/app/api/auth/[...nextauth]/options";
 
-export default function RootLayout(props: { children: React.ReactNode }) {
+export default async function RootLayout(props: { children: React.ReactNode }) {
+
+  const session = await getServerSession(options);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
@@ -17,7 +22,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            <NavBar />
+            <NavBar session={session}/>
             <Container>
               <Box sx={{ mt: 15 }}>
                 {props.children}

@@ -4,11 +4,15 @@ import { Container, Box, Typography, AppBar, Button, IconButton, Toolbar, Avatar
 import MenuIcon from '@mui/icons-material/Menu';
 import React from "react"
 import { useRouter } from 'next/navigation'
+import { signIn, signOut } from 'next-auth/react'
+import { DefaultSession } from "next-auth";
 
-const pages = ['Home', 'Operation', 'Calculator'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Dashboard', 'Operation', 'Calculator'];
+const settings = ['Profile', 'Logout'];
 
-export default function NavBar() {
+export default function NavBar({session}: {session: DefaultSession | null}) {
+
+    
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -20,6 +24,7 @@ export default function NavBar() {
     };
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
+       
     };
 
     const handleCloseNavMenu = (page: string) => {        
@@ -30,8 +35,11 @@ export default function NavBar() {
         }
     };
 
-    const handleCloseUserMenu = () => {
+    const handleCloseUserMenu = (action : string ) => {
         setAnchorElUser(null);
+        if (action === 'Logout') {
+            signOut({callbackUrl: "/"});
+        }
     };
 
     return (
@@ -55,7 +63,7 @@ export default function NavBar() {
                     >
                         Safe Invest
                     </Typography>
-
+                    {session ? 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
@@ -89,7 +97,7 @@ export default function NavBar() {
                                 </MenuItem>
                             ))}
                         </Menu>
-                    </Box>                    
+                    </Box> : null}                   
                     <Typography
                         variant="h5"
                         noWrap
@@ -108,6 +116,7 @@ export default function NavBar() {
                     >
                         Safe Invest
                     </Typography>
+                    { session ?<>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
                             <Button
@@ -119,10 +128,10 @@ export default function NavBar() {
                             </Button>
                         ))}
                     </Box>
-                    <Box sx={{ flexGrow: 0 }}>
+                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                <Avatar alt={session.user?.name || ''} src={session.user?.image || ''}/>
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -142,12 +151,15 @@ export default function NavBar() {
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
                                     <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
-                    </Box>
+                    </Box></> :
+                    <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                         <Button key='signin' onClick={() => signIn("github", {callbackUrl: "/profile"})} sx={{ color: 'white' }}>Sign in</Button> 
+                    </Box> }
                 </Toolbar>
             </Container>
         </AppBar>
