@@ -16,7 +16,7 @@ export async function getOperations(): Promise<Operation[]> {
 
 
 
-export async function getAssets(): Promise<{label: string, total: number}[]> {
+export async function getAssets(): Promise<{ label: string, total: number }[]> {
     return operations.reduce((acc, operation) => {
         if (!acc.some(item => item.label === operation.asset)) {
             acc.push({ label: operation.asset, total: operation.amount });
@@ -26,14 +26,14 @@ export async function getAssets(): Promise<{label: string, total: number}[]> {
             acc[index].total += operation.amount;
         }
         return acc;
-    }, [] as {label: string, total: number}[]);
+    }, [] as { label: string, total: number }[]);
 }
 
 export async function getCategories(): Promise<string[]> {
     return Array.from(new Set(operations.map(operation => operation.category)));
 }
 
-export async function getAssetsByCategory(category: string): Promise<{label: string, total: number}[]> {
+export async function getAssetsByCategory(category: string): Promise<{ label: string, total: number }[]> {
     return operations.reduce((acc, operation) => {
         if (operation.category === category) {
             if (!acc.some(item => item.label === operation.asset)) {
@@ -45,23 +45,23 @@ export async function getAssetsByCategory(category: string): Promise<{label: str
             }
         }
         return acc;
-    }, [] as {label: string, total: number}[]);
+    }, [] as { label: string, total: number }[]);
 }
 
 export async function getTotalInvested(): Promise<number> {
-    return operations.reduce((acc, operation) => acc + (operation.amount*operation.price), 0);
+    return operations.reduce((acc, operation) => acc + (operation.amount * operation.price), 0);
 }
 
 export async function getTotalInvestedByAsset(asset: string): Promise<number> {
     return operations.reduce((acc, operation) => {
         if (operation.asset === asset) {
-            return acc + (operation.amount*operation.price);
+            return acc + (operation.amount * operation.price);
         }
         return acc;
     }, 0);
 }
 
-export async function getCategory(category: string): Promise<AssetCategory> {    
+export async function getCategory(category: string): Promise<AssetCategory> {
     switch (decodeURIComponent(category.toLowerCase())) {
         case 'ação':
             return 'Ação';
@@ -84,17 +84,17 @@ export async function getCategory(category: string): Promise<AssetCategory> {
 export async function getTotalInvestedByCategory(category: AssetCategory): Promise<number> {
     return operations.reduce((acc, operation) => {
         if (operation.category === category) {
-            return acc + (operation.amount*operation.price);
+            return acc + (operation.amount * operation.price);
         }
         return acc;
     }, 0);
 }
 
 export async function getTodayPrice(ticket: string): Promise<number> {
-    return prices.find(price => price.ticket === ticket)?.price || 0;
+    return prices.find(price => price.ticket === ticket)?.price ?? 0;
 }
 
-export async function getTodayTotalByCategory(category: AssetCategory):  Promise<number> {
+export async function getTodayTotalByCategory(category: AssetCategory): Promise<number> {
     const promises = operations.map(async (operation) => {
         if (operation.category === category) {
             const price = await getTodayPrice(operation.asset);
