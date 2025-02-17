@@ -1,0 +1,1 @@
+export type AssetCategory = 'Ação' | 'FII' | 'Cripto' | 'Tesouro' | 'Renda Fixa' | 'Outros';

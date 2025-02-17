@@ -6,6 +6,7 @@ import React from "react"
 import { useRouter } from 'next/navigation'
 import { signIn, signOut } from 'next-auth/react'
 import { DefaultSession } from "next-auth";
+import ModeSwitch from "./ModeSwitch";
 
 const pages = ['Dashboard', 'Operation', 'Calculator'];
 const settings = ['Profile', 'Logout'];
@@ -115,7 +116,7 @@ export default function NavBar({session}: Readonly<{session: DefaultSession | nu
                         }}
                     >
                         Safe Invest
-                    </Typography>
+                    </Typography>                    
                     { session ?<>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
@@ -150,6 +151,9 @@ export default function NavBar({session}: Readonly<{session: DefaultSession | nu
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
+                            <MenuItem>
+                                <ModeSwitch />
+                            </MenuItem>
                             {settings.map((setting) => (
                                 <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
                                     <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>

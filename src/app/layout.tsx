@@ -6,9 +6,11 @@ import theme from '@/theme';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import Copyright from '@/components/Copyright';
 import NavBar from '@/components/NavBar';
-import { Container, Box } from '@mui/material';
+import { Container, Box, Grid2 } from '@mui/material';
 import { getServerSession } from "next-auth/next";
 import { options } from "@/app/api/auth/[...nextauth]/options";
+import { BasicBreadcrumbs } from '@/components/BasicBreadcrumbs';
+import { BasicBackButton } from '@/components/BasicBackButton';
 
 export default async function RootLayout(props: Readonly<{ children: React.ReactNode }>) {
 
@@ -22,12 +24,22 @@ export default async function RootLayout(props: Readonly<{ children: React.React
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            <NavBar session={session}/>
-            <Container>
-              <Box sx={{ mt: 15 }}>
-                {props.children}
-                <Copyright />
+            <NavBar session={session} />
+            <Container maxWidth="xl">
+              <Box sx={{ mt: 12 }}>
+                <Grid2 container spacing={3}>
+                  <Grid2 size="grow">
+                    <BasicBreadcrumbs />
+                  </Grid2>
+                  <Grid2 sx={{ flexGrow: 1, textAlign: 'right' }}>
+                    <BasicBackButton />
+                  </Grid2>
+                </Grid2>
               </Box>
+              <Box sx={{ mt: 4, mb: 12 }}>
+                {props.children}                
+              </Box>
+              <Copyright />
             </Container>
           </ThemeProvider>
         </AppRouterCacheProvider>

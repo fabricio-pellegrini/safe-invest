@@ -2,14 +2,16 @@
 import { Container, Box } from "@mui/material";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
-import operations from '@/data/operations';
+import { getOperations } from "../api/backend";
+import { Operation } from "@/types/operation";
+import { useEffect, useState } from 'react';
 
 
 
 const editable = false;
 
 
-const columns: GridColDef<(typeof operations)[number]>[] = [
+const columns: GridColDef<Operation>[] = [
   { 
     field: 'date', 
     headerName: 'Data', 
@@ -60,17 +62,22 @@ const columns: GridColDef<(typeof operations)[number]>[] = [
 
 
 export default function Page() {
+  const [rows, setRows] = useState<Operation[]>([]);
+
+  useEffect(() => {
+    getOperations().then(data => setRows(data));
+  }, []);
 
   return (
     <Container>
       <Box sx={{ my: 2 }}>
         <DataGrid
-          rows={operations}
+          rows={rows}
           columns={columns}
           hideFooter
           disableRowSelectionOnClick
         />
       </Box>
     </Container>
-  );
+  );  
 }

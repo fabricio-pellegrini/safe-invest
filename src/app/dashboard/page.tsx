@@ -1,20 +1,20 @@
-import { Container, Box } from "@mui/material";
+import { getCategories, getCategory, getTotalInvested, getTotalInvestedByCategory } from "@/app/api/backend";
+import Summary from "@/components/summary/Summary";
 
+export default async function Page() {
 
-export default function Page() {
+  const [categories, totalInvested] = await Promise.all([getCategories(), getTotalInvested()]);
 
-    return (
-        <Container>
-        <Box sx={{ my: 2 }}>
-          {[...new Array(12)]
-            .map(
-              () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
-            )
-            .join('\n')}
-        </Box>
-      </Container>
-    );
-    }
+  const data = await Promise.all(
+    categories
+      .map(async category => {
+        const value = await getTotalInvestedByCategory(await getCategory(category));
+        return { id: category.toLowerCase(), label: category, value, currentValue: value };
+      })
+  );
+
+  const filteredData = data.filter(asset => asset.value > 0).sort((a, b) => b.value - a.value);
+
+  return (<Summary title="Geral" data={filteredData} total={totalInvested} totalProfit={0}/> 
+  );
+}
